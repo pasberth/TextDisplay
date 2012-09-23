@@ -1,18 +1,30 @@
 # -*- coding: utf-8 -*-
 require 'give4each'
+require 'text_display/helpers'
 
 module TextDisplay
 
   class Text
 
+    include TextDisplay::Helpers
+
     def initialize text = ''
       case text
       when String
+        attributes = {}
+
         @lines = text.lines.map do |line|
           line = line.chomp
-          line.each_char.map do |char|
-            DecoratedString.new(char)
-          end
+          
+          each_escaped_char(line).map do |char|
+
+            if char[0] == "\e"
+              attributes = attributes.merge(DecoratedString.parse_escape_sequence(char))
+              nil
+            else
+              DecoratedString.new(char, attributes)
+            end
+          end.compact
         end
 
         if text[-1] == "\n"

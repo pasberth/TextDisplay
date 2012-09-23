@@ -61,7 +61,7 @@ module TextDisplay
     def cut_range start, final
       Text.new(each_line.map.with_index do |ln, i|
         case i
-        when start...final then ln.join
+        when start...final then ln.map(&:as_string).join
         else nil
         end
       end.compact.join("\n"))

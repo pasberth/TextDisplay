@@ -68,6 +68,7 @@ module TextDisplay
     end
 
     def crop start_x, start_y, final_x, final_y
+      # TODO: 最後に改行を含むべきかどうか決める
       Text.new(cut_range(start_y, final_y).each_line.map do |line|
         [].tap do |cut|
           i = 0
@@ -77,13 +78,21 @@ module TextDisplay
               i += c.display_width
             elsif i + c.display_width <= final_x
               cut << c
-              i += c.display_width              
+              i += c.display_width
             else
               i += c.display_width
             end
           end
         end
       end)
+    end
+
+    def delete_char x, y
+      @lines[x] && @lines[x].delete_at(y) or nil
+    end
+
+    def delete_line lineno
+      @lines.delete_at lineno
     end
 
     def insert! text, x, y
@@ -132,6 +141,8 @@ module TextDisplay
     end
 
     def paste! text, x, y
+      # FIXME: pasteは日本語などの場合 display_width を使う
+      # この実装だと文字の数しか見ない
       Text.new(text).each_line.with_index do |line, i|
         (@lines[y + i] ||= [])[x, line.length] = line
       end

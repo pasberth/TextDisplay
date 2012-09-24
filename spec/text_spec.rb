@@ -4,6 +4,24 @@ require 'spec_helper'
 
 describe TextDisplay::Text do
 
+  describe "#delete_char" do
+
+    example do
+      str = described_class.new("\e[1mhello\e[m")
+      str.delete_char(0, 3)
+      str.as_string.should == "helo"
+    end
+  end
+
+  describe "#delete_line" do
+
+    example do
+      str = described_class.new('hello')
+      str.delete_line(0)
+      str.as_string.should == ""
+    end
+  end
+
   describe "#crop" do
 
     context do

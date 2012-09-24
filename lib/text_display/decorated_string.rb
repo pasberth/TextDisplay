@@ -85,14 +85,21 @@ module TextDisplay
     end
 
     def as_string
-      Paint[String.new(self),
-            *[color ? color : :default,
-              bgcolor ? bgcolor : :default,
-              bold ? :bold : nil,
-              underscore ? :underline : nil,
-              blink ? :blink : nil,
-              reverse ? :inverse : nil,
-              concealed ? :conceal : nil ].compact]
+      return @as_string if @as_string
+      if color or bgcolor or
+        bold or underscore or blink or
+        reverse or concealed then
+        @as_string = Paint[self,
+                           *[color ? color : :default,
+                             bgcolor ? bgcolor : :default,
+                             bold ? :bold : nil,
+                             underscore ? :underline : nil,
+                             blink ? :blink : nil,
+                             reverse ? :inverse : nil,
+                             concealed ? :conceal : nil ].compact]
+      else
+        @as_string = self
+      end
     end
   end
 end

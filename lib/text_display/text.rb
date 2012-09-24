@@ -36,6 +36,8 @@ module TextDisplay
         @lines = text.each_line.to_a
       else raise TypeError, "Can't convert #{text.class} into #{Text}"
       end
+
+      format_lines!
     end
 
     def as_string color = false
@@ -48,8 +50,6 @@ module TextDisplay
 
     def each_line
       return enum_for(:each_line) unless block_given?
-
-      format_lines!
 
       @lines.each.with_index do |line, i|
         yield line
@@ -114,6 +114,9 @@ module TextDisplay
       rest = @lines.fetch(y + i, [])[0...x] || []
       push = @lines.fetch(y + i, [])[x..-1] || []
       @lines[y + i] = rest + lines.last + push
+
+      format_lines!
+      nil
     end
 
     def insert *args
@@ -134,6 +137,9 @@ module TextDisplay
       rest = @lines.fetch(y + i, [])[0...x] || []
       push = @lines.fetch(y + i, [])[x+lines.last.length..-1] || []
       @lines[y + i] = rest + lines.last + push
+
+      format_lines!
+      nil
     end
 
     def overwrite *args
@@ -146,6 +152,9 @@ module TextDisplay
       Text.new(text).each_line.with_index do |line, i|
         (@lines[y + i] ||= [])[x, line.length] = line
       end
+
+      format_lines!
+      nil
     end
 
     def paste *args

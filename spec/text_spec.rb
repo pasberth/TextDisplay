@@ -266,4 +266,113 @@ A
 ..
 A
   end
+
+  describe "#overwrite" do
+
+    let(:horizontal_dot_line) { "..." }
+    let(:newline) { "\n" }
+    let(:vertical_dot_line) { ".\n.\n." }
+    let(:dot_box) { "..\n.." }
+
+    subject { described_class.new(<<-STR) }
+###
+###
+###
+STR
+
+    describe "return value" do
+
+      example { subject.overwrite("@@@", 0, 0).should be_kind_of TextDisplay::Text }
+    end
+
+    describe "site effect" do
+
+      example do
+        subject.overwrite("@@@", 0, 0)
+        subject.as_string.should == "###\n###\n###\n"
+      end
+    end
+
+    example { subject.overwrite("\n", 0, 0).as_string.should == <<-A }
+
+###
+###
+A
+    example { subject.overwrite("..\n", 0, 0).as_string.should == <<-A }
+..
+###
+###
+A
+
+    example { subject.overwrite("..", 0, 0).as_string.should == <<-A }
+..#
+###
+###
+A
+    example { subject.overwrite(horizontal_dot_line, 0, 0).as_string.should == <<-A }
+...
+###
+###
+A
+    example { subject.overwrite(horizontal_dot_line, 0, 1).as_string.should == <<-A }
+###
+...
+###
+A
+    example { subject.overwrite(".\n.", 0, 0).as_string.should == <<-A }
+.
+.##
+###
+A
+    example { subject.overwrite(".\n.\n", 0, 0).as_string.should == <<-A }
+.
+.
+###
+A
+    example { subject.overwrite(vertical_dot_line, 0, 0).as_string.should == <<-A }
+.
+.
+.##
+A
+    example { subject.overwrite(vertical_dot_line, 1, 0).as_string.should == <<-A }
+#.
+.
+.##
+A
+      example { subject.overwrite(dot_box, 0, 0).as_string.should == <<-A }
+..
+..#
+###
+A
+    example { subject.overwrite(dot_box, 1, 0).as_string.should == <<-A }
+#..
+..#
+###
+A
+    example { subject.overwrite(dot_box, 0, 1).as_string.should == <<-A }
+###
+..
+..#
+A
+    example { subject.overwrite(dot_box, 1, 1).as_string.should == <<-A }
+###
+#..
+..#
+A
+    example { subject.overwrite(dot_box, 2, 2).as_string.should == <<-A.chomp }
+###
+###
+##..
+..
+A
+
+      example { subject.overwrite(dot_box, 4, 4).as_string.should == <<-A.chomp }
+###
+###
+###
+
+    ..
+..
+A
+  end
 end

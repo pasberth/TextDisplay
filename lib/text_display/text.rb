@@ -111,6 +111,26 @@ module TextDisplay
       clone.tap &:insert!.with(*args)
     end
 
+    def overwrite! text, x, y
+      lines = Text.new(text).each_line.to_a
+
+      lines[0..-2].each_with_index do |line, i|
+        rest = @lines.fetch(y + i) { Array.new(x) }[0...x] || []
+        @lines[y + i] = rest + line
+
+        x = 0
+      end
+
+      i = lines.length - 1
+      rest = @lines.fetch(y + i, [])[0...x] || []
+      push = @lines.fetch(y + i, [])[x+lines.last.length..-1] || []
+      @lines[y + i] = rest + lines.last + push
+    end
+
+    def overwrite *args
+      clone.tap &:overwrite!.with(*args)
+    end
+
     def paste! text, x, y
       Text.new(text).each_line.with_index do |line, i|
         (@lines[y + i] ||= [])[x, line.length] = line

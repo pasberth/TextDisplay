@@ -31,9 +31,9 @@ module TextDisplay
           @lines << []
         end
       when Array
-        @lines = text
+        @lines = text.map(&:clone)
       when Text
-        @lines = text.each_line.to_a
+        @lines = text.each_line.map(&:clone)
       else raise TypeError, "Can't convert #{text.class} into #{Text}"
       end
 

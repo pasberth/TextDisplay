@@ -88,7 +88,7 @@ module TextDisplay
     end
 
     def delete_char x, y
-      @lines[x] && @lines[x].delete_at(y) or nil
+      @lines[y] && @lines[y].delete_at(x) or nil
     end
 
     def delete_line lineno

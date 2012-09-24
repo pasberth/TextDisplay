@@ -8,7 +8,7 @@ describe TextDisplay::Text do
 
     example do
       str = described_class.new("\e[1mhello\e[m")
-      str.delete_char(0, 3)
+      str.delete_char(3, 0)
       str.as_string.should == "helo"
     end
   end

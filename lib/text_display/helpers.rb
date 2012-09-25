@@ -29,6 +29,7 @@ module TextDisplay
 
       if str =~ /^\e\[(?<A>\d*)(?<COL>;\d+\g<COL>?)?m/
         a = $~["A"]
+        a = '0' if a.empty?
         if $~["COL"]
           b = $~["COL"].split(';')
           b.shift # $~["COL"] は ";x;y..." の形式なのでひとつ落とす

@@ -11,7 +11,7 @@ module TextDisplay
         if a =~ /^\e\[\d*(?<COL>;\d+\g<COL>?)?m/
           e = $~[0]
           a.sub!(e, "")
-          yield e.clone
+          yield e
           a.each_char &block
         else
           a.each_char &block

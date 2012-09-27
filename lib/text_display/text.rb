@@ -163,7 +163,7 @@ module TextDisplay
 
     def clone
       cln = super
-      lns = @lines.map { |line| line.map(&:clone) }
+      lns = @lines.map(&:clone)
 
       cln.instance_eval do
         @lines = lns

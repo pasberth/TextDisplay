@@ -61,10 +61,10 @@ module TextDisplay
     def cut_range start, final
       Text.new(each_line.map.with_index do |ln, i|
         case i
-        when start...final then ln.map(&:as_string).join
+        when start...final then ln
         else nil
         end
-      end.compact.join("\n"))
+      end.compact)
     end
 
     def crop start_x, start_y, final_x, final_y

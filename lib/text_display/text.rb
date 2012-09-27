@@ -177,7 +177,7 @@ module TextDisplay
       def format_lines!
         @lines.each_with_index do |line, i|
           line = line || @lines[i] = []
-          line.map! { |a| a ? a : DecoratedString.new(' ') }
+          line.map! { |a| a ? a : DecoratedString::SPACE }
         end
       end
   end

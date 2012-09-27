@@ -105,4 +105,11 @@ module TextDisplay
       @as_string
     end
   end
+
+
+  class DecoratedString
+
+    SPACE = new ' '
+    EMPTY = new ''
+  end
 end

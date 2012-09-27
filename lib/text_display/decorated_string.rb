@@ -74,18 +74,7 @@ module TextDisplay
           raise ArgumentError, "Unexpected attribute: '#{att}' = #{val.inspect}"
         end
       end
-    end
 
-    ATTRS.each do |a|
-      attr_reader a
-    end
-
-    def attrs_as_hash
-      Hash[*ATTRS.map { |a| [a, instance_variable_get(:"@#{a}")] }.flatten(1)]
-    end
-
-    def as_string
-      return @as_string if @as_string
       if color or bgcolor or
         bold or underscore or blink or
         reverse or concealed then
@@ -100,6 +89,20 @@ module TextDisplay
       else
         @as_string = self
       end
+
+      freeze
+    end
+
+    ATTRS.each do |a|
+      attr_reader a
+    end
+
+    def attrs_as_hash
+      Hash[*ATTRS.map { |a| [a, instance_variable_get(:"@#{a}")] }.flatten(1)]
+    end
+
+    def as_string
+      @as_string
     end
   end
 end

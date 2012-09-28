@@ -43,3 +43,5 @@ module TextDisplay
     end
   end
 end
+
+require 'text_display/ext/helpers'

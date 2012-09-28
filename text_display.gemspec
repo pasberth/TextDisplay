@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.description = %{}
   s.summary = %q{}
   s.email = "pasberth@gmail.com"
+  s.extensions = ["ext/text_display/ext/extconf.rb"]
   s.extra_rdoc_files = ["README.rst"]
   s.rdoc_options = ["--charset=UTF-8"]
   s.homepage = "http://github.com/pasberth/TextDisplay"

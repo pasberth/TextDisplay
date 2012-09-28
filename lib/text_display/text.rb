@@ -16,7 +16,7 @@ module TextDisplay
         @lines = text.lines.map do |line|
           line = line.chomp
           
-          each_escaped_char(line).map do |char|
+          split_escaped_chars(line).map do |char|
 
             if char[0] == "\e"
               attributes = attributes.merge(DecoratedString.parse_escape_sequence(char))

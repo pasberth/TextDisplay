@@ -27,7 +27,7 @@ module TextDisplay
           end.compact
         end
 
-        if text[-1] == "\n"
+        if text[-1].nil? or text[-1] == "\n"
           @lines << []
         end
       when Array
